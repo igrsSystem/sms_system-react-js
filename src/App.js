@@ -6,12 +6,15 @@ import Graficos from './Pages/Atendimento/Graficos'
 import SmsEnviados from './Pages/Sms/index'
 import { Table, Card, Button } from 'react-bootstrap';
 
+import Tabela from './Pages/Tabela/index'
+import EnvioSms from './Pages/EnvioSms/index'
+
 function App() {
   return (
     <>
       <div className="container-fluid">
-       
-        <SmsEnviados />
+        <EnvioSms />
+        <Tabela />
       </div>
     </>
 

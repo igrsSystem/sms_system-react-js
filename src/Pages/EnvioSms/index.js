@@ -15,8 +15,11 @@ function EnviaSms() {
 
     const [load, setLoad] = useState(true);
     const [data, setDate] = useState([]);
+    const [numero ,setNumero] = useState()
+    const [IdSetor ,setIdSetor] = useState()
+    const [msg, setMsg] = useState([]);
 
-    const [msg , setMsg] = useState([]);
+    
 
     async function resonpeSetores() {
         await axios.post('http://localhost/public_html/filtros/filtroSertores.php')
@@ -27,15 +30,25 @@ function EnviaSms() {
             });
     }
 
-    async function responseMsgEnv(IdSetor){
+    async function responseMsgEnv(IdSetor) {
         const form = new FormData();
         form.append('txtIdSetor', IdSetor);
+        setIdSetor(IdSetor);
 
         await axios.post('http://localhost/public_html/filtros/filtroMensagem.php', form)
-        .then(res => {
-            setMsg(res.data)
-             console.log(res.data)
-        })
+            .then(res => {
+                setMsg(res.data)
+                console.log(res.data)
+            })
+    }
+
+    async function requestEnvMsg(txtIdSetor, txtMensagem) {
+        const form = new FormData('http://localhost/public_html/cadastros/msgSmsEnv.php');
+        form.append({ 'txtMetodo': 'insert', 'txtSetor': txtIdSetor, 'txtMensagem': txtMensagem });
+        await axios.post()
+            .then(res => {
+                console.log(res);
+            })
     }
 
     function handleSelect() {
@@ -46,32 +59,44 @@ function EnviaSms() {
         })
         return rows
     }
+   async function handleClick(event) {
+        event.preventDefault();
 
+        const form = new FormData();
+      
+        const t = `txtMetodo=insert&txtIdSetor=${IdSetor}&txtNumeroCliente=${numero}&txtMensagemEnv=${msg.descricao_msg}`
+        //form.append( 'txtMetodo', 'insert', 'txtSetor',IdSetor, 'txtNumeroCliente', numero , 'txtMensagemEnv', msg.descricao_msg );
+        await axios.post('http://localhost/public_html/cadastros/SmsRetorno.php', t)
+            .then(res => {
+                console.log(res);
+            })
+    }
 
-    useEffect(() =>{
+    
+    useEffect(() => {
         resonpeSetores()
-    },[])
+    }, [])
 
     if (load) {
         return (<h1>carregando</h1>)
     }
     return (
 
-        <Form>
+        <Form onSubmit={handleClick} >
 
             <Row >
                 <Col sm={4}>
 
                     <Form.Label>Selecione o setor</Form.Label>
-                    <Form.Control onChange={({ target: { value } }) => responseMsgEnv( value )  } as="select">
-                        {handleSelect()} 
+                    <Form.Control onChange={({ target: { value } }) => responseMsgEnv(value)} as="select">
+                        {handleSelect()}
                     </Form.Control>
                 </Col >
 
                 <Col sm={4} >
                     <Form.Group controlId="numero">
                         <Form.Label>Numero</Form.Label>
-                        <Form.Control type="text" placeholder="Digite o numero" />
+                        <Form.Control onChange={e => setNumero( e.target.value ) } type="text" placeholder="Digite o numero" />
                     </Form.Group>
                 </ Col>
 
