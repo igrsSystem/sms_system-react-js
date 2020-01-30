@@ -8,11 +8,10 @@ function Tabela() {
     const [result, setResult] = useState([]);
     const [load, setLoad] = useState(true);
 
-
     const handleChange = (state) => {
-        // You can use setState or dispatch with something like Redux so we can use the retrieved data
         console.log('Selected Rows: ', state.selectedRows);
       };
+
     const columns = [
         {
             width:'150px',
@@ -47,7 +46,6 @@ function Tabela() {
     async function results() {
         await Axios.post('http://localhost/public_html/cadastros/SmsRetorno.php')
             .then(res => {
-                console.log(res.data);
                 setResult(res.data);
                 setLoad(false);
             })

@@ -6,12 +6,12 @@ import axios from 'axios'
 
 function EnviaSms() {
 
-    const Button = style.button`
-  font-size: 1em;
-  margin: 25px;
-  padding: 0.25em 1em;
-  border: 2px solid palevioletred;
-  border-radius: 3px;`;
+const Button = style.button`
+            font-size: 1em;
+            margin: 25px;
+            padding: 0.25em 1em;
+            border: 2px solid palevioletred;
+            border-radius: 3px;`;
 
     const [load, setLoad] = useState(true);
     const [data, setDate] = useState([]);
@@ -42,14 +42,7 @@ function EnviaSms() {
             })
     }
 
-    async function requestEnvMsg(txtIdSetor, txtMensagem) {
-        const form = new FormData('http://localhost/public_html/cadastros/msgSmsEnv.php');
-        form.append({ 'txtMetodo': 'insert', 'txtSetor': txtIdSetor, 'txtMensagem': txtMensagem });
-        await axios.post()
-            .then(res => {
-                console.log(res);
-            })
-    }
+ 
 
     function handleSelect() {
         const rows = data.map((dat, index) => {
@@ -61,14 +54,10 @@ function EnviaSms() {
     }
    async function handleClick(event) {
         event.preventDefault();
-
-        const form = new FormData();
-      
         const t = `txtMetodo=insert&txtIdSetor=${IdSetor}&txtNumeroCliente=${numero}&txtMensagemEnv=${msg.descricao_msg}`
-        //form.append( 'txtMetodo', 'insert', 'txtSetor',IdSetor, 'txtNumeroCliente', numero , 'txtMensagemEnv', msg.descricao_msg );
         await axios.post('http://localhost/public_html/cadastros/SmsRetorno.php', t)
             .then(res => {
-                console.log(res);
+               // retorno de resposta de cadastro
             })
     }
 

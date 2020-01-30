@@ -26,7 +26,7 @@ function SmsEnviados() {
     if (load) {
         return <h1>Carregando..</h1>
     }
-    /*
+     /*
         const array = new Array(8).fill("teste");
     
         const newArray = array.map((item,index) => index);
